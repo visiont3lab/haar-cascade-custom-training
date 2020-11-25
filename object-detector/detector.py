@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import os
 
-face_cascade = cv2.CascadeClassifier('cascade_training/results/cascade.xml')
+face_cascade = cv2.CascadeClassifier('cascade_training/results-large/cascade.xml')
 
 cap = cv2.VideoCapture(0)
 
