@@ -25,3 +25,4 @@ Useful References:
 * **PyImageSearch** [Sliding window](https://www.pyimagesearch.com/2015/03/23/sliding-windows-for-object-detection-with-python-and-opencv/)
 * **PyImageSearch** [Python library imutils](https://github.com/jrosebr1/imutils)
 * [Online Labeling Tool (MakeSense)](https://www.makesense.ai/)
+* [Training haar cascade](https://docs.opencv.org/3.4/dc/d88/tutorial_traincascade.html)

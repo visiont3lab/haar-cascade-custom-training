@@ -10,13 +10,13 @@
 # cd /home/manuel/thermohuman_ws/lib/opencv-3.4.0/release && cmake -D CMAKE_BUILD_TYPE=RELEASE -D WITH_CUDA=OF -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_PYTHON_SUPPORT=ON  ..
 
 # Set input
-results="cascade_training/results"
-images_folder="dataset/mask-resize"
-images_txt="training.txt"                  #337
-backgrounds_txt="background.txt" #1109
-num_images=600 #441  # 4863 not ok
-num_pos=400   #400 # 500 # almost 90% to select this number https://answers.opencv.org/question/24241/my-classifier-using-haar-cascade-can-not-detect-anything/
-num_neg=800 # 250
+results="cascade_training/results-small"
+images_folder="dataset/small/mask-resize"
+images_txt="training_small.txt"                  #337
+backgrounds_txt="background_small.txt" #1109
+num_images=63  # 600
+num_pos=55   #400 # almost 90% to select this number https://answers.opencv.org/question/24241/my-classifier-using-haar-cascade-can-not-detect-anything/
+num_neg=90 # 800
 
 # remove results and trainining txt files
 if [ -d $results ]; then rm -Rf $results; fi
