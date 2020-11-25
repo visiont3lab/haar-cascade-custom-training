@@ -1,0 +1,113 @@
+<!doctype html>
+<title>Label app</title>
+<h1>Label app</h1>
+<div>
+    <label for="start">Start number</label>
+    <form action=/start method="post">
+        <input type="number" name="start"  min=0 max= {{ total }} > 
+        <input type="submit">
+    </form>
+</div>
+<div>
+    <h3>{{ filename }} </h3>
+    <h3>{{ value }}/ {{ total }} </h3>
+    <div style="display: none">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage-->
+        <img id="source" src={{ image_file }}> 
+    </div>
+    <canvas id="canvas"></canvas>
+    <div id="output"></div>
+
+</div>
+<div>
+    <a href=/previous><input type="button" value="Previous"></a>
+    <a href=/next><input type="button" value="Next"></a>
+    <button id="save">Save</button>
+</div>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+    //Canvas
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    const image = document.getElementById('source');
+    
+    var imgToLoad = new Image();
+    imgToLoad.onload = function () {
+    //continue canvas procesing after image has been loaded
+        canvas.width = imgToLoad.width;
+        canvas.height = imgToLoad.height;
+        ctx.drawImage(imgToLoad, 0, 0);
+    };
+    imgToLoad.src = document.getElementById("source").src;
+
+    //Variables
+    var canvasx = $(canvas).offset().left;
+    var canvasy = $(canvas).offset().top;
+    var last_mousex = last_mousey = 0;
+    var mousex = mousey = 0;
+    var mousedown = false;
+    var widthbox = 0;
+    var heightbox = 0;
+    var xbox =0;
+    var ybox = 0;
+
+    //Mousedown
+    $(canvas).on('mousedown', function(e) {
+        last_mousex = parseInt(e.clientX-canvasx);
+        last_mousey = parseInt(e.clientY-canvasy);
+        mousedown = true;
+    });
+
+    //Mouseup
+    $(canvas).on('mouseup', function(e) {
+        mousedown = false;
+    });
+
+    //Mousemove
+    $(canvas).on('mousemove', function(e) {
+    mousex = parseInt(e.clientX-canvasx);
+	mousey = parseInt(e.clientY-canvasy);
+    if(mousedown) {
+        //ctx.clearRect(0,0,canvas.width,canvas.height); //clear canvas
+        ctx.drawImage(image,0,0);
+        ctx.beginPath();
+        // Rect
+        widthbox = mousex-last_mousex;
+        heightbox = mousey-last_mousey;
+        xbox = last_mousex;
+        ybox = last_mousey;
+        ctx.rect(last_mousex,last_mousey,widthbox,heightbox);
+        $('#output').html("(x,z,w,h) :" + "(" + xbox +"," + ybox +"," +widthbox + "," +heightbox  + ")")    
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+});
+
+    $( "#save" ).click(function() {
+
+       var boxInfo = {
+           "x": xbox,
+           "y": ybox,
+           "width": widthbox,
+           "height" : heightbox
+       };
+       console.log(boxInfo)
+        $.ajax({
+            url: "/save",
+            type: "POST",
+            data: JSON.stringify(boxInfo),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function(res) {
+            //console.log(res);
+            }
+        });
+    });
+
+})
+</script>
