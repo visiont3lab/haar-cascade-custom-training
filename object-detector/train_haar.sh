@@ -12,7 +12,6 @@
 # Set input
 results="cascade_training/results"
 images_folder="dataset/mask-resize"
-backgrounds_folder="backgrounds"
 images_txt="training.txt"                  #337
 backgrounds_txt="background.txt" #1109
 num_images=600 #441  # 4863 not ok
